@@ -1,0 +1,58 @@
+import { useState } from "react";
+import {type ConversionResult, convertRomanToArabic} from "./utils/romanUtils";
+import ConversionPart from "./components/ConversionPart.tsx";
+import ResultDisplay from "./components/ResultDisplay.tsx";
+import ConversionModal from "./components/ConversionModal.tsx";
+
+export default function App() {
+    const [romanInput, setRomanInput] = useState("");
+    const [result, setResult] = useState<ConversionResult | null>(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const handleConvert = () => {
+        if (!romanInput.trim()) return;
+        const conversionResult = convertRomanToArabic(romanInput);
+        setResult(conversionResult);
+    };
+
+    // const handleExampleClick = (roman: string) => {
+    //     setRomanInput(roman);
+    //     setResult(null);
+    // };
+
+    return (
+        <div className="min-h-screen w-full flex flex-col items-center justify-center bg-gradient-to-br" style={{ background: "linear-gradient(to bottom right, #a73737, #7a2828)" }}>
+            <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
+                <div className="text-center mb-6">
+                    <h1 className="text-3xl font-bold text-gray-800 mb-2">
+                        Convertisseur Romain
+                    </h1>
+                    <p className="text-gray-600 text-sm">
+                        Transformez les chiffres romains en chiffres arabes !
+                    </p>
+                </div>
+
+                <ConversionPart
+                    value={romanInput}
+                    onChange={setRomanInput}
+                    onConvert={handleConvert}
+                />
+
+                <ResultDisplay result={result} />
+
+                {/*<ExamplesSection onExampleClick={handleExampleClick} />*/}
+            </div>
+
+            <footer className="mt-8 text-center text-white text-sm">
+                <a
+                    onClick={() => setIsModalOpen(true)}
+                    style={{ color: "white", textDecoration: "underline", cursor: "pointer" }}
+                >
+                    Voir le tableau des conversions
+                </a>
+            </footer>
+
+            <ConversionModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+        </div>
+    );
+}
