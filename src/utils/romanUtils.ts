@@ -68,24 +68,42 @@ const validateRepeats = (roman: string): string | null => {
 const validateSubtractionRules = (roman: string): string | null => {
     const upperRoman = roman.toUpperCase();
 
-    // V, L, D cannot be used for subtraction
-    if (/[VLD][XLCDM]/i.test(upperRoman)) {
-        return "V, L et D ne peuvent pas être soustraits";
-    }
-
-    // I can only be subtracted from V and X
-    if (/I[LCD]/i.test(upperRoman)) {
-        return "I ne peut être soustrait que de V et X";
-    }
-
-    // X can only be subtracted from L and C
-    if (/X[DM]/i.test(upperRoman)) {
-        return "X ne peut être soustrait que de L et C";
-    }
-
-    // C can only be subtracted from D and M
-    if (/C[^\sDM·:]/i.test(upperRoman)) {
-        return "C ne peut être soustrait que de D et M";
+    // Check each pair of consecutive characters for invalid subtractions
+    for (let i = 0; i < upperRoman.length - 1; i++) {
+        const current = upperRoman[i];
+        const next = upperRoman[i + 1];
+        
+        // Skip if next character is a vinculum
+        if (next === '·' || next === ':') {
+            continue;
+        }
+        
+        // Get values for comparison
+        const currentValue = ROMAN_VALUES[current];
+        const nextValue = ROMAN_VALUES[next];
+        
+        // If current value is less than next value, it's a subtraction
+        if (currentValue && nextValue && currentValue < nextValue) {
+            // V, L, D cannot be used for subtraction
+            if (current === 'V' || current === 'L' || current === 'D') {
+                return "V, L et D ne peuvent pas être soustraits";
+            }
+            
+            // I can only be subtracted from V and X
+            if (current === 'I' && next !== 'V' && next !== 'X') {
+                return "I ne peut être soustrait que de V et X";
+            }
+            
+            // X can only be subtracted from L and C
+            if (current === 'X' && next !== 'L' && next !== 'C') {
+                return "X ne peut être soustrait que de L et C";
+            }
+            
+            // C can only be subtracted from D and M
+            if (current === 'C' && next !== 'D' && next !== 'M') {
+                return "C ne peut être soustrait que de D et M";
+            }
+        }
     }
 
     return null;

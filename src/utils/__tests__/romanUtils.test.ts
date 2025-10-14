@@ -140,9 +140,10 @@ describe('Roman Utils - Validation Tests', () => {
       expect(result.error).toBe('X ne peut être soustrait que de L et C')
     })
 
-    it('should return error when C is subtracted from invalid symbols', () => {
+    it('should allow C followed by L (CL = 150)', () => {
       const result = convertRomanToArabic('CL')
-      expect(result.error).toBe('C ne peut être soustrait que de D et M')
+      expect(result.error).toBeUndefined() // CL = 150 is valid (addition, not subtraction)
+      expect(result.value).toBe(150)
     })
 
     it('should allow valid subtraction rules', () => {
