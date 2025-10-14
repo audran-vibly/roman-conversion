@@ -78,9 +78,19 @@ describe('Performance Tests', () => {
 
   describe('Bulk Conversion Performance', () => {
     it('should handle 1000 conversions under 1 second', () => {
+      // Generate valid Roman numerals for testing
+      const validRomans = [
+        'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X',
+        'XI', 'XII', 'XIII', 'XIV', 'XV', 'XVI', 'XVII', 'XVIII', 'XIX', 'XX',
+        'XXI', 'XXII', 'XXIII', 'XXIV', 'XXV', 'XXVI', 'XXVII', 'XXVIII', 'XXIX', 'XXX',
+        'XL', 'XLI', 'XLII', 'XLIII', 'XLIV', 'XLV', 'XLVI', 'XLVII', 'XLVIII', 'XLIX', 'L',
+        'LI', 'LII', 'LIII', 'LIV', 'LV', 'LVI', 'LVII', 'LVIII', 'LIX', 'LX',
+        'XC', 'XCI', 'XCII', 'XCIII', 'XCIV', 'XCV', 'XCVI', 'XCVII', 'XCVIII', 'XCIX', 'C',
+        'CD', 'D', 'CM', 'M', 'MM', 'MMM', 'MMMCMXCIX'
+      ]
+      
       const testCases = Array.from({ length: 1000 }, (_, i) => {
-        const roman = ['I', 'V', 'X', 'L', 'C', 'D', 'M'][i % 7]
-        return roman.repeat(Math.floor(i / 7) + 1)
+        return validRomans[i % validRomans.length]
       })
       
       const start = performance.now()
