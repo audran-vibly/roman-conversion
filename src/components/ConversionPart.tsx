@@ -9,11 +9,14 @@ interface ConversionInputProperties {
 }
 
 export default function ConversionPart({value, onChange, onConvert}: ConversionInputProperties) {
+
+    // input modification gestion -> sanitize input
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const sanitized = sanitizeRomanInput(e.target.value);
         onChange(sanitized);
     };
 
+    // input keydown gestion -> convert on enter key
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter" && value.trim()) {
             onConvert();
@@ -27,7 +30,7 @@ export default function ConversionPart({value, onChange, onConvert}: ConversionI
                     id="roman-input"
                     className="border border-gray-300 p-3 w-full rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center text-lg font-mono uppercase transition-all text-black"
                     type="text"
-                    placeholder="Ex: MCMXCIX"
+                    placeholder="Ex: X·L·V·MMM"
                     value={value}
                     onChange={handleInputChange}
                     onKeyDown={handleKeyDown}

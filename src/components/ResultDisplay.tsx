@@ -8,6 +8,7 @@ interface ResultDisplayProperties {
 export default function ResultDisplay({ result }: ResultDisplayProperties) {
     if (!result) return null;
 
+    // Display the error message if there is one
     if (result.error) {
         return (
             <div className="mt-6 p-4 bg-red-50 border border-red-200 text-red-800 rounded-lg flex items-start gap-3 animate-in fade-in duration-300">
@@ -20,6 +21,7 @@ export default function ResultDisplay({ result }: ResultDisplayProperties) {
         );
     }
 
+    // Display the result if there is no error
     return (
         <div className="mt-6 p-4 bg-green-50 border border-green-200 text-green-800 rounded-lg animate-in fade-in duration-300">
             <div className="flex items-center gap-2 mb-2">
@@ -27,7 +29,7 @@ export default function ResultDisplay({ result }: ResultDisplayProperties) {
                 <p className="font-medium">Votre résultat</p>
             </div>
             <div className="text-center mt-3">
-                <p className="text-3xl font-bold text-green-900">{result.value}</p>
+                <p className="text-3xl font-bold text-green-900">{result.value.toLocaleString()}</p>
             </div>
         </div>
     );

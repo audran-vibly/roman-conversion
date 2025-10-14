@@ -1,5 +1,5 @@
 import { useState } from "react";
-import {type ConversionResult, convertRomanToArabic} from "./utils/romanUtils";
+import {type ConversionResult, convertRomanToArabic } from "./utils/romanUtils";
 import ConversionPart from "./components/ConversionPart.tsx";
 import ResultDisplay from "./components/ResultDisplay.tsx";
 import ConversionModal from "./components/ConversionModal.tsx";
@@ -7,18 +7,12 @@ import ConversionModal from "./components/ConversionModal.tsx";
 export default function App() {
     const [romanInput, setRomanInput] = useState("");
     const [result, setResult] = useState<ConversionResult | null>(null);
-    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const handleConvert = () => {
         if (!romanInput.trim()) return;
         const conversionResult = convertRomanToArabic(romanInput);
         setResult(conversionResult);
     };
-
-    // const handleExampleClick = (roman: string) => {
-    //     setRomanInput(roman);
-    //     setResult(null);
-    // };
 
     return (
         <div className="min-h-screen w-full flex flex-col items-center justify-center bg-gradient-to-br" style={{ background: "linear-gradient(to bottom right, #a73737, #7a2828)" }}>
@@ -39,20 +33,9 @@ export default function App() {
                 />
 
                 <ResultDisplay result={result} />
-
-                {/*<ExamplesSection onExampleClick={handleExampleClick} />*/}
             </div>
 
-            <footer className="mt-8 text-center text-white text-sm">
-                <a
-                    onClick={() => setIsModalOpen(true)}
-                    style={{ color: "white", textDecoration: "underline", cursor: "pointer" }}
-                >
-                    Voir le tableau des conversions
-                </a>
-            </footer>
-
-            <ConversionModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+            <ConversionModal />
         </div>
     );
 }
