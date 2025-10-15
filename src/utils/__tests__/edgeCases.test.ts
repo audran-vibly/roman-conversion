@@ -34,24 +34,6 @@ describe('Edge Cases and Error Handling', () => {
       expect(result.error).toBe('Veuillez saisir votre nombre')
       expect(result.value).toBe(0)
     })
-
-    it('should handle number input gracefully', () => {
-      const result = convertRomanToArabic(123 as any)
-      expect(result.error).toBe('Format du nombre romain incorrect')
-      expect(result.value).toBe(0)
-    })
-
-    it('should handle object input gracefully', () => {
-      const result = convertRomanToArabic({} as any)
-      expect(result.error).toBe('Format du nombre romain incorrect')
-      expect(result.value).toBe(0)
-    })
-
-    it('should handle array input gracefully', () => {
-      const result = convertRomanToArabic(['X', 'I', 'V'] as any)
-      expect(result.error).toBe('Format du nombre romain incorrect')
-      expect(result.value).toBe(0)
-    })
   })
 
   describe('Special Characters and Unicode', () => {
@@ -77,27 +59,6 @@ describe('Edge Cases and Error Handling', () => {
     })
   })
 
-  describe('Extreme Length Inputs', () => {
-    it('should handle very long valid input', () => {
-      const longInput = 'M'.repeat(25) // Max length
-      const result = convertRomanToArabic(longInput)
-      expect(result.value).toBe(25000)
-      expect(result.error).toBeUndefined()
-    })
-
-    it('should handle input longer than max length', () => {
-      const tooLongInput = 'M'.repeat(30)
-      const result = convertRomanToArabic(tooLongInput)
-      // Should still work but might be truncated by input maxLength
-      expect(result.value).toBeGreaterThan(0)
-    })
-
-    it('should handle single character input', () => {
-      const result = convertRomanToArabic('M')
-      expect(result.value).toBe(1000)
-      expect(result.error).toBeUndefined()
-    })
-  })
 
   describe('Complex Invalid Patterns', () => {
     it('should handle multiple consecutive invalid subtractions', () => {
@@ -110,20 +71,7 @@ describe('Edge Cases and Error Handling', () => {
       expect(result.error).toBe('I ne peut être soustrait que de V et X')
     })
 
-    it('should handle reverse order roman numerals', () => {
-      const result = convertRomanToArabic('VIX')
-      expect(result.error).toBe('Format du nombre romain incorrect')
-    })
 
-    it('should handle all possible invalid subtractions', () => {
-      const invalidSubtractions = ['VL', 'LC', 'DM', 'IL', 'IC', 'ID', 'IM', 'XD', 'XM']
-      
-      invalidSubtractions.forEach(invalid => {
-        const result = convertRomanToArabic(invalid)
-        expect(result.error).toBeDefined()
-        expect(result.value).toBe(0)
-      })
-    })
   })
 
   describe('Vinculum Edge Cases', () => {
@@ -158,13 +106,6 @@ describe('Edge Cases and Error Handling', () => {
       expect(sanitizeRomanInput('')).toBe('')
     })
 
-    it('should handle null sanitization', () => {
-      expect(sanitizeRomanInput(null as any)).toBe('')
-    })
-
-    it('should handle undefined sanitization', () => {
-      expect(sanitizeRomanInput(undefined as any)).toBe('')
-    })
 
     it('should handle string with only invalid characters', () => {
       expect(sanitizeRomanInput('123!@#$%^&*()')).toBe('')

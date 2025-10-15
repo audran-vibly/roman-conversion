@@ -38,7 +38,7 @@ export const VALIDATION_RULES = {
  * @param roman (String)
  */
 const validateNotEmpty = (roman: string): string | null => {
-    return !roman.trim() ? "Veuillez saisir votre nombre" : null;
+    return !roman || !roman.trim() ? "Veuillez saisir votre nombre" : null;
 };
 
 /**
