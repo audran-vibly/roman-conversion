@@ -1,5 +1,5 @@
 import * as React from "react";
-import {sanitizeRomanInput, VALIDATION_RULES} from "../utils/romanUtils.ts";
+import {VALIDATION_RULES} from "../utils/romanUtils.ts";
 import {Info, Search} from "lucide-react";
 
 interface ConversionInputProperties {
@@ -12,8 +12,7 @@ export default function ConversionPart({value, onChange, onConvert}: ConversionI
 
     // input modification gestion -> sanitize input
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const sanitized = sanitizeRomanInput(e.target.value);
-        onChange(sanitized);
+        onChange(e.target.value);
     };
 
     // input keydown gestion -> convert on enter key

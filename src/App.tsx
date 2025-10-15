@@ -1,5 +1,5 @@
 import { useState } from "react";
-import {type ConversionResult, convertRomanToArabic } from "./utils/romanUtils";
+import {type ConversionResult, convertArabicToRoman, convertRomanToArabic} from "./utils/romanUtils";
 import ConversionPart from "./components/ConversionPart.tsx";
 import ResultDisplay from "./components/ResultDisplay.tsx";
 import ConversionModal from "./components/ConversionModal.tsx";
@@ -10,7 +10,15 @@ export default function App() {
 
     const handleConvert = () => {
         if (!romanInput.trim()) return;
-        const conversionResult = convertRomanToArabic(romanInput);
+
+        let conversionResult;
+
+        if (/\d/.test(romanInput)) {
+            conversionResult = convertArabicToRoman(romanInput);
+        } else {
+            conversionResult = convertRomanToArabic(romanInput);
+        }
+
         setResult(conversionResult);
     };
 

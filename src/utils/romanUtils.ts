@@ -1,5 +1,5 @@
 export interface ConversionResult {
-    value: number;
+    value: string | number;
     error?: string;
 }
 
@@ -18,7 +18,7 @@ export const ROMAN_VALUES: Record<string, number> = {
 // Multipliers for extended notation (vinculum)
 export const VINCULUM_MULTIPLIERS = {
     "·": 1000,       // multiplier x 1000
-    ":": 1000000,   // multiplier x1 000 000
+    ":": 1000000,    // multiplier x1 000 000
 } as const;
 
 // Validation rules
@@ -203,6 +203,78 @@ export const convertRomanToArabic = (roman: string): ConversionResult => {
 
     return { value: total };
 };
+
+/**
+ * Convert an arabic number to its roman representation
+ * Supports extended notation with vinculum for large numbers
+ * @param input (Number) - Arabic number to convert
+ * @returns ConversionResult - Roman numeral and potential error
+ */
+export const convertArabicToRoman = (input: string): ConversionResult => {
+    const num = Number(input);
+
+    if (!Number.isInteger(num)) {
+        return { value: 0, error: "Le nombre doit être un entier" };
+    }
+
+    if (num <= 0) {
+        return { value: 0, error: "Le nombre doit être positif" };
+    }
+
+    if (num > 3999999999) {
+        return { value: 0, error: "Le nombre est trop grand" };
+    }
+
+    let result = "";
+    let remaining = num;
+
+    const romanSymbols = [
+        { value: 1000, symbol: "M" },
+        { value: 900, symbol: "CM" },
+        { value: 500, symbol: "D" },
+        { value: 400, symbol: "CD" },
+        { value: 100, symbol: "C" },
+        { value: 90, symbol: "XC" },
+        { value: 50, symbol: "L" },
+        { value: 40, symbol: "XL" },
+        { value: 10, symbol: "X" },
+        { value: 9, symbol: "IX" },
+        { value: 5, symbol: "V" },
+        { value: 4, symbol: "IV" },
+        { value: 1, symbol: "I" }
+    ];
+
+    for (const [multiplier, multiplierValue] of Object.entries(VINCULUM_MULTIPLIERS).reverse()) {
+        const portion = Math.floor(remaining / multiplierValue);
+
+        if (portion > 0 && portion <= 3999) {
+            let portionRemaining = portion;
+            for (const { value, symbol } of romanSymbols) {
+                const count = Math.floor(portionRemaining / value);
+                if (count > 0) {
+                    result += (symbol + multiplier).repeat(count);
+                    portionRemaining -= value * count;
+                }
+            }
+
+            remaining -= portion * multiplierValue;
+        }
+    }
+
+    if (remaining > 0 && remaining <= 3999) {
+
+        for (const { value, symbol } of romanSymbols) {
+            const count = Math.floor(remaining / value);
+            if (count > 0) {
+                result += symbol.repeat(count);
+                remaining -= value * count;
+            }
+        }
+    }
+
+    return { value: result };
+}
+
 
 /**
  * Sanitize the input to remove invalid characters
