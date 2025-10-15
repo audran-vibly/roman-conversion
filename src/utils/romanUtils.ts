@@ -23,7 +23,7 @@ export const VINCULUM_MULTIPLIERS = {
 
 // Validation rules
 export const VALIDATION_RULES = {
-    maxLength: 50,                                       // max length alowed
+    maxLength: 100,                                      // max length allowed
     maxRepeats: 3,                                       // max number of repeats allowed
     pattern: /^[IVXLCDM][·:]?(?:[IVXLCDM][·:]?)*$/i,     // general pattern
     repeatPattern: /([IVXLCDM])[·:]?(\1[·:]?){3,}/i,     // repeats pattern
